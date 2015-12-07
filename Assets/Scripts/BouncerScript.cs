@@ -7,23 +7,17 @@ public class BouncerScript : MonoBehaviour {
     public float repositionDelay = 0.1f;
 
     private float minX = 0;
-    private float minY = 0;
-    private float maxY = 10;
     private float maxX = 8.9f;
 
     private int _Score;
     private bool countScore = true;
     private GUIText _ScoreGUI;
-    private Collider2D _Collider;
-    private Vector2 _OriginPosition;
 
     // Use this for initialization
     void Start ()
     {
-        _OriginPosition = transform.position;
         GameObject.Find("HighScoreValue").GetComponent<GUIText>().text = PlayerPrefs.GetInt("HighScore", 0).ToString();
         _ScoreGUI =  GameObject.Find("ScoreValue").GetComponent<GUIText>();
-        _Collider = GetComponent<Collider2D>();
     }
 	
 	// Update is called once per frame
