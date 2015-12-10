@@ -6,8 +6,8 @@ public class BouncerScript : MonoBehaviour {
     public float bounceFactor = 4f;
     public float repositionDelay = 0.1f;
 
-    private float minX = 0;
-    private float maxX = 8.9f;
+    private float minX = 1.41f;
+    private float maxX = 8.59f;
 
     private int _Score;
     private bool countScore = true;

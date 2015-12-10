@@ -1,0 +1,188 @@
+fileFormatVersion: 2
+guid: e737ab12fe1e6c24ab1efd5e46c0e148
+timeCreated: 1449708376
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: lontrinhas_0
+    21300002: lontrinhas_1
+    21300004: lontrinhas_2
+    21300006: lontrinhas_3
+    21300008: lontrinhas_4
+    21300010: lontrinhas_5
+    21300012: lontrinhas_6
+    21300014: lontrinhas_7
+    21300016: lontrinhas_8
+    21300018: lontrinhas_9
+    21300020: lontrinhas_10
+    21300022: lontrinhas_11
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 8
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: lontrinhas_0
+      rect:
+        serializedVersion: 2
+        x: 2209
+        y: 247
+        width: 260
+        height: 231
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: lontrinhas_1
+      rect:
+        serializedVersion: 2
+        x: 2543
+        y: 285
+        width: 214
+        height: 278
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: lontrinhas_2
+      rect:
+        serializedVersion: 2
+        x: 2815
+        y: 430
+        width: 322
+        height: 123
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: lontrinhas_3
+      rect:
+        serializedVersion: 2
+        x: 3245
+        y: 302
+        width: 315
+        height: 168
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: lontrinhas_4
+      rect:
+        serializedVersion: 2
+        x: 54
+        y: 82
+        width: 288
+        height: 118
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: lontrinhas_5
+      rect:
+        serializedVersion: 2
+        x: 448
+        y: 14
+        width: 231
+        height: 235
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: lontrinhas_6
+      rect:
+        serializedVersion: 2
+        x: 777
+        y: 22
+        width: 311
+        height: 204
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: lontrinhas_7
+      rect:
+        serializedVersion: 2
+        x: 1154
+        y: 25
+        width: 233
+        height: 267
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: lontrinhas_8
+      rect:
+        serializedVersion: 2
+        x: 1573
+        y: 50
+        width: 178
+        height: 271
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: lontrinhas_9
+      rect:
+        serializedVersion: 2
+        x: 1982
+        y: 50
+        width: 144
+        height: 320
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: lontrinhas_10
+      rect:
+        serializedVersion: 2
+        x: 3550
+        y: 148
+        width: 324
+        height: 139
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: lontrinhas_11
+      rect:
+        serializedVersion: 2
+        x: 3971
+        y: 75
+        width: 303
+        height: 153
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
