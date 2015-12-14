@@ -16,7 +16,23 @@ public class DeathTrigger : MonoBehaviour {
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.CompareTag("Player"))
-            Application.LoadLevel(Application.loadedLevel);
+        {
+            if(hasLife())
+            {
+                other.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+                other.GetComponent<Rigidbody2D>().AddForce(Vector2.up * 40, ForceMode2D.Impulse);
+                PlayerPrefs.SetInt("HasLife", 0);
+            }
+            else
+            {
+                Application.LoadLevel(Application.loadedLevel);
+            }
+        }
     }
 
+
+    private bool hasLife()
+    {
+        return PlayerPrefs.GetInt("HasLife", 0) == 1;
+    }
 }
