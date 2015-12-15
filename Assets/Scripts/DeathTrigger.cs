@@ -19,6 +19,7 @@ public class DeathTrigger : MonoBehaviour {
         {
             if(hasLife())
             {
+                GameObject.Find("Bouncer").GetComponent<AudioSource>().Play();
                 other.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
                 other.GetComponent<Rigidbody2D>().AddForce(Vector2.up * 40, ForceMode2D.Impulse);
                 PlayerPrefs.SetInt("HasLife", 0);
