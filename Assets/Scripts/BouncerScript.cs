@@ -1,7 +1,28 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
-public class BouncerScript : MonoBehaviour {
+class PowerUp
+{
+    public int Duration;
+
+    public int DisappearCount;
+
+    public int Count;
+
+    public string Name;
+
+    public PowerUp(string name, int duration)
+    {
+        Count = 0;
+        Duration = duration;
+        DisappearCount = 0;
+        Name = name;
+    }
+}
+
+public class BouncerScript : MonoBehaviour
+{
 
     public float bounceFactor = 40f;
     public float repositionDelay = 0.1f;
@@ -12,54 +33,58 @@ public class BouncerScript : MonoBehaviour {
     private float minXBig = 2.18f;
     private float maxXBig = 7.82f;
 
+    private float minXSmall = 0.96f;
+    private float maxXSmall = 9.04f;
+
     private float minX;
     private float maxX;
 
     private int _Score;
     private bool countScore = true;
     private GUIText _ScoreGUI;
-    /// <summary>
-    /// Score needed to show life
-    /// </summary>
-    private int _LifeScore = 15;
-    private int _LifeScoreRange = 2;
-    private int _LifeDuration = 3;
-    private int _LifeCount;
 
-
-    private int _AppleScore = 10;
-    private int _AppleScoreRange = 2;
-    private int _AppleDuration = 3;
-    private int _AppleCount;
+    private IList<PowerUp> powerups;
 
     private bool wasPlatformBig = false;
 
+    private int powerupIndex;
+
     // Use this for initialization
-    void Start ()
+    void Start()
     {
+        powerups = new List<PowerUp>();
+        powerups.Add(new PowerUp("Life", 3));
+        powerups.Add(new PowerUp("Apple", 3));
+        powerups.Add(new PowerUp("Fish", 3));
+        powerups.Add(new PowerUp("Mushroom", 3));
         GameObject.Find("HighScoreValue").GetComponent<GUIText>().text = PlayerPrefs.GetInt("HighScore", 0).ToString();
-        _ScoreGUI =  GameObject.Find("ScoreValue").GetComponent<GUIText>();
-        GameObject.Find("Heart").GetComponent<Renderer>().enabled = false;
-        GameObject.Find("Heart").GetComponent<Collider2D>().enabled = false;
-        GameObject.Find("Apple").GetComponent<Renderer>().enabled = false;
-        GameObject.Find("Apple").GetComponent<Collider2D>().enabled = false;
-        _LifeCount = 0;
-        _AppleCount = 0;
+        _ScoreGUI = GameObject.Find("ScoreValue").GetComponent<GUIText>();
+        var renderers = GameObject.Find("LifeFloor").GetComponentsInChildren<Renderer>();
+        foreach (var renderer in renderers)
+        {
+            renderer.enabled = false;
+        }
         PlayerPrefs.SetInt("HasLife", 0);
         PlayerPrefs.SetInt("PlatformBig", 0);
-        _LifeScore = Random.Range(_LifeScore - _LifeScoreRange, _LifeScore + _LifeScoreRange);
-        _AppleScore = Random.Range(_AppleScore - _AppleScoreRange, _AppleScore + _AppleScoreRange);
+        PlayerPrefs.SetInt("PlatformSmall", 0);
+        PlayerPrefs.SetInt("Gravity", 0);
         minX = minXDefault;
         maxX = maxXDefault;
+        powerupIndex = -1;
     }
-	
-	// Update is called once per frame
-	void Update ()
+
+    // Update is called once per frame
+    void Update()
     {
-        if(PlayerPrefs.GetInt("PlatformBig", 0) == 1)
+        if (PlayerPrefs.GetInt("PlatformBig", 0) == 1)
         {
             minX = minXBig;
             maxX = maxXBig;
+        }
+        else if(PlayerPrefs.GetInt("PlatformSmall", 0) == 1)
+        {
+            minX = minXSmall;
+            maxX = maxXSmall;
         }
         else
         {
@@ -74,41 +99,142 @@ public class BouncerScript : MonoBehaviour {
         {
             if (countScore)//enter only once
             {
+                GetComponent<AudioSource>().Play();
                 _Score++;
-                GameObject heart = GameObject.Find("Heart");
-                GameObject apple = GameObject.Find("Apple");
-                if (heart.GetComponent<Renderer>().enabled)
+                if(_Score % 10 == 0 || powerupIndex == -1)
                 {
-                    _LifeCount++;
-                    if(_LifeCount == _LifeDuration)
+                    if(PlayerPrefs.GetInt("HasLife", 0) == 1)
                     {
-                        heart.GetComponent<Renderer>().enabled = false;
-                        heart.GetComponent<Collider2D>().enabled = false;
-                        _LifeCount = 0;
+                        powerupIndex = Random.Range(1, powerups.Count);
+                    }
+                    else
+                    {
+                        powerupIndex = Random.Range(0, powerups.Count);
                     }
                 }
-                else if(_Score == _LifeScore)
-                {
-                    heart.GetComponent<Renderer>().enabled = true;
-                    heart.GetComponent<Collider2D>().enabled = true;
-                    heart.transform.position = new Vector2(Random.Range(minX + 1, maxX - 1), heart.transform.position.y);
-                }
+                PowerUp powerup = powerups[powerupIndex];
+                GameObject obj = GameObject.Find(powerup.Name);
 
-                if (PlayerPrefs.GetInt("PlatformBig", 0) == 1)
+                switch (powerup.Name)
                 {
-                    _AppleCount++;
-                    if (_AppleCount == _AppleDuration)
-                    {
-                        transform.localScale = transform.localScale - new Vector3(0.05f, 0f);
-                        PlayerPrefs.SetInt("PlatformBig", 0);
-                        _AppleCount = 0;
-                    }
-                }
-                else if (_Score == _AppleScore)
-                {
-                    apple.GetComponent<Renderer>().enabled = true;
-                    apple.GetComponent<Collider2D>().enabled = true;
-                    apple.transform.position = new Vector2(Random.Range(minX + 1, maxX - 1), apple.transform.position.y);
+                    case "Life":
+
+
+                        if (obj.GetComponent<Renderer>().enabled)
+                        {
+                            powerup.Count++;
+                            if (powerup.Count == powerup.Duration)
+                            {
+                                obj.GetComponent<Renderer>().enabled = false;
+                                obj.GetComponent<Collider2D>().enabled = false;
+                                var renderers = GameObject.Find("LifeFloor").GetComponentsInChildren<Renderer>();
+                                foreach (var renderer in renderers)
+                                {
+                                    renderer.enabled = false;
+                                }
+                                powerup.Count = 0;
+                            }
+                        }
+                        else if(_Score % 10 == 0)
+                        {
+                            obj.GetComponent<Renderer>().enabled = true;
+                            obj.GetComponent<Collider2D>().enabled = true;
+                            obj.transform.position = new Vector2(Random.Range(minX + 1, maxX - 1), obj.transform.position.y);
+                        }
+
+                        break;
+                    case "Apple":
+                        if (PlayerPrefs.GetInt("PlatformBig", 0) == 1)
+                        {
+                            powerup.Count++;
+                            if (powerup.Count == powerup.Duration)//
+                            {
+                                obj.GetComponent<Renderer>().enabled = false;
+                                obj.GetComponent<Collider2D>().enabled = false;
+                                transform.localScale = transform.localScale - new Vector3(0.05f, 0f);
+                                PlayerPrefs.SetInt("PlatformBig", 0);
+                                powerup.Count = 0;
+                            }
+                        }
+                        else if (!obj.GetComponent<Renderer>().enabled && _Score % 10 == 0)//show fruit
+                        {
+                            obj.GetComponent<Renderer>().enabled = true;
+                            obj.GetComponent<Collider2D>().enabled = true;
+                            obj.transform.position = new Vector2(Random.Range(minX + 1, maxX - 1), obj.transform.position.y);
+                        }
+                        else if(PlayerPrefs.GetInt("PlatformBig", 0) == 0)
+                        {
+                            powerup.DisappearCount++;
+                            if (powerup.DisappearCount == powerup.Duration)//
+                            {
+                                obj.GetComponent<Renderer>().enabled = false;
+                                obj.GetComponent<Collider2D>().enabled = false;
+                                powerup.DisappearCount = 0;
+                            }
+                        }
+
+                        break;
+                    case "Fish":
+                        if (PlayerPrefs.GetInt("PlatformSmall", 0) == 1)
+                        {
+                            powerup.Count++;
+                            if (powerup.Count == powerup.Duration)//
+                            {
+                                obj.GetComponent<Renderer>().enabled = false;
+                                obj.GetComponent<Collider2D>().enabled = false;
+                                transform.localScale = transform.localScale + new Vector3(0.05f, 0f);
+                                PlayerPrefs.SetInt("PlatformSmall", 0);
+                                powerup.Count = 0;
+                            }
+                        }
+                        else if (!obj.GetComponent<Renderer>().enabled && _Score % 10 == 0)//show fruit
+                        {
+                            obj.GetComponent<Renderer>().enabled = true;
+                            obj.GetComponent<Collider2D>().enabled = true;
+                            obj.transform.position = new Vector2(Random.Range(minX + 1, maxX - 1), obj.transform.position.y);
+                        }
+                        else if (PlayerPrefs.GetInt("PlatformSmall", 0) == 0)
+                        {
+                            powerup.DisappearCount++;
+                            if (powerup.DisappearCount == powerup.Duration)//
+                            {
+                                obj.GetComponent<Renderer>().enabled = false;
+                                obj.GetComponent<Collider2D>().enabled = false;
+                                powerup.DisappearCount = 0;
+                            }
+                        }
+                        break;
+                    case "Mushroom":
+                        if (PlayerPrefs.GetInt("Gravity", 0) == 1)
+                        {
+                            powerup.Count++;
+                            if (powerup.Count == powerup.Duration)//
+                            {
+                                obj.GetComponent<Renderer>().enabled = false;
+                                obj.GetComponent<Collider2D>().enabled = false;
+                                GameObject character = GameObject.Find("Character");
+                                character.GetComponent<Rigidbody2D>().gravityScale--;
+                                PlayerPrefs.SetInt("Gravity", 0);
+                                powerup.Count = 0;
+                            }
+                        }
+                        else if (!obj.GetComponent<Renderer>().enabled && _Score % 10 == 0)//show fruit
+                        {
+                            obj.GetComponent<Renderer>().enabled = true;
+                            obj.GetComponent<Collider2D>().enabled = true;
+                            obj.transform.position = new Vector2(Random.Range(minX + 1, maxX - 1), obj.transform.position.y);
+                        }
+                        else if (PlayerPrefs.GetInt("Gravity", 0) == 0)
+                        {
+                            powerup.DisappearCount++;
+                            if (powerup.DisappearCount == powerup.Duration)//
+                            {
+                                obj.GetComponent<Renderer>().enabled = false;
+                                obj.GetComponent<Collider2D>().enabled = false;
+                                powerup.DisappearCount = 0;
+                            }
+                        }
+                        break;
                 }
 
 
@@ -116,9 +242,9 @@ public class BouncerScript : MonoBehaviour {
                 countScore = false;
             }
             other.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-            other.GetComponent<Rigidbody2D>().AddForce(Vector2.up * bounceFactor, ForceMode2D.Impulse);            
+            other.GetComponent<Rigidbody2D>().AddForce(Vector2.up * bounceFactor, ForceMode2D.Impulse);
             Invoke("SpawnPlatform", repositionDelay);
-        }        
+        }
     }
 
     void OnTriggerExit2D(Collider2D other)

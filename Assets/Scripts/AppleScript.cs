@@ -17,6 +17,7 @@ public class AppleScript : MonoBehaviour {
     {
         if (other.gameObject.CompareTag("Player"))
         {
+            GetComponent<AudioSource>().Play();
             GetComponent<Renderer>().enabled = false;
             GetComponent<Collider2D>().enabled = false;
             GameObject bouncer = GameObject.Find("Bouncer");

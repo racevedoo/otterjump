@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class LifeScript : MonoBehaviour {
+public class MushroomScript : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
@@ -17,14 +17,17 @@ public class LifeScript : MonoBehaviour {
     {
         if (other.gameObject.CompareTag("Player"))
         {
+            GetComponent<AudioSource>().Play();
             GetComponent<Renderer>().enabled = false;
             GetComponent<Collider2D>().enabled = false;
-            setLife();
+            GameObject character = GameObject.Find("Character");
+            character.GetComponent<Rigidbody2D>().gravityScale++;
+            setGravity();
         }
     }
 
-    private void setLife()
+    private void setGravity()
     {
-        PlayerPrefs.SetInt("HasLife", 1);
+        PlayerPrefs.SetInt("Gravity", 1);
     }
 }
